@@ -1,0 +1,394 @@
+{
+  "name": "Gravar status via Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -720,
+        -16
+      ],
+      "id": "edf6c01c-a6d8-4db8-ab0b-3c93a8736ac1",
+      "name": "Telegram Trigger",
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $json.message || {};\nconst txt = String(msg.text || '').trim();\nconst chatId = msg.chat && msg.chat.id;\nconst msgId = msg.message_id;\n\nconst loc = txt.match(/\\b(CEN|NOR|SUL)\\s*-\\s*(\\d+)\\b/i);\nconst st  = txt.match(/\\b(rebaixad[oa]|troca|perda)\\b/i);\nif (!loc || !st) return [];              // não é comando -> ignora\n\nconst cod = loc[1].toUpperCase();\nconst ean = loc[2];\nlet s = st[1].toLowerCase();\ns = s.startsWith('rebaix') ? 'Rebaixado' : (s === 'troca' ? 'Troca' : 'Perda');\n\nreturn [{ json: { cod, ean, status: s, chatId, msgId } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        -16
+      ],
+      "id": "cb33e5c9-cdb6-4dbf-857f-4ea4fd77404a",
+      "name": "Parse comando"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.cod }}",
+                    "rightValue": "CEN",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "80514729-88c3-4196-aff4-8bc12250fc9b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "262e33ea-7c51-4073-a511-df6bbdd66cc0",
+                    "leftValue": "={{ $json.cod }}",
+                    "rightValue": "NOR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b6ccd34c-f14a-4fec-b649-dff0cb5ea090",
+                    "leftValue": "={{ $json.cod }}",
+                    "rightValue": "SUL",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        -32
+      ],
+      "id": "1e3c4418-1dbd-490f-8bd1-0cb894ff7cf0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse comando').item.json.chatId }}",
+        "text": "=[OK] {{ $('Parse comando').item.json.cod }}-{{ $('Parse comando').item.json.ean }} -> {{ $('Parse comando').item.json.status }}",
+        "additionalFields": {
+          "reply_to_message_id": "={{ $('Parse comando').item.json.msgId }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        -16
+      ],
+      "id": "f74aab9c-64f5-4b5c-9703-e383cec38488",
+      "name": "Send a text message",
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_LOJA_CENTRO",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Loja Centro",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_LOJA_CENTRO/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000001,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_LOJA_CENTRO/edit#gid=100000001"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "CÓDIGO EM BARRA": "={{ $json.ean }}",
+            "STATUS": "={{ $json.status }}"
+          },
+          "matchingColumns": [
+            "CÓDIGO EM BARRA"
+          ]
+        },
+        "options": {
+          "locationDefine": {
+            "values": {
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        -192
+      ],
+      "id": "8f948f41-010e-4ca8-8e1b-f99f9c4c961e",
+      "name": "Loja Centro",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_FILIAL_NORTE",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Filial Norte",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_NORTE/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000002,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_NORTE/edit#gid=100000002"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "CÓDIGO EM BARRA": "={{ $json.ean }}",
+            "STATUS": "={{ $json.status }}"
+          },
+          "matchingColumns": [
+            "CÓDIGO EM BARRA"
+          ]
+        },
+        "options": {
+          "locationDefine": {
+            "values": {
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "b6d7ae89-c1b2-43c9-bdb3-ff19b36bf8af",
+      "name": "Filial Norte",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_FILIAL_SUL",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Filial Sul",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_SUL/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000003,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_SUL/edit#gid=100000003"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "CÓDIGO EM BARRA": "={{ $json.ean }}",
+            "STATUS": "={{ $json.status }}"
+          },
+          "matchingColumns": [
+            "CÓDIGO EM BARRA"
+          ]
+        },
+        "options": {
+          "locationDefine": {
+            "values": {
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        160
+      ],
+      "id": "4c5f656e-2e28-4a1d-93b0-64541a394f1d",
+      "name": "Filial Sul",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse comando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse comando": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Loja Centro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filial Norte",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filial Sul",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loja Centro": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filial Norte": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filial Sul": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 1,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

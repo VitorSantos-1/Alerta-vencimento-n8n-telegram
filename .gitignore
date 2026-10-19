@@ -1,0 +1,11 @@
+# Arquivos brutos / rascunhos locais de teste do n8n (mantidos apenas localmente)
+3txDTFL4fFE6vkcJ-Teste_3_Reads.json
+H72U8QeEx5KD9K9y-My_workflow.json
+mAjZn7HN6Bur69ct-Teste_Franciscanos.json
+f67O6OlYGYT2GufD-Alerta_de_risco_de_vencimento_por_Telegram.json
+KoyklYXgI7iarsYn-Gravar_status_via_Telegram.json
+
+# Arquivos de ambiente e sistema
+.env
+.DS_Store
+Thumbs.db

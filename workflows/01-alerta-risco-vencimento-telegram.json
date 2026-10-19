@@ -1,0 +1,650 @@
+{
+  "name": "Alerta de risco de vencimento por Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "e8080f0f-9dc1-4c36-a6c4-49ed24324add",
+      "name": "Todo dia de manhã",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1152,
+        -272
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_LOJA_CENTRO",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Loja Centro",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_LOJA_CENTRO/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000001,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_LOJA_CENTRO/edit#gid=100000001"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "id": "c7dceabf-b474-48a5-8628-43df0da998d9",
+      "name": "Ler Loja Centro",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -816,
+        -512
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "b77a9d69-8af8-440a-9281-5c30eaee7b1f",
+      "name": "Juntar leituras",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -512,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_FILIAL_NORTE",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Filial Norte",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_NORTE/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000002,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_NORTE/edit#gid=100000002"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "id": "21c43376-28ca-49a8-a04a-91e290cad6df",
+      "name": "Ler Filial Norte",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -816,
+        -272
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "SEU_DOCUMENT_ID_FILIAL_SUL",
+          "mode": "list",
+          "cachedResultName": "Auditoria - Filial Sul",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_SUL/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 100000003,
+          "mode": "list",
+          "cachedResultName": "Base_Validade",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SEU_DOCUMENT_ID_FILIAL_SUL/edit#gid=100000003"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 5,
+              "firstDataRow": 6
+            }
+          }
+        }
+      },
+      "id": "276e8627-c38e-4830-a30d-dead90b07df9",
+      "name": "Ler Filial Sul",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -816,
+        -32
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const compradorMap = {\n  \"001 - Merc. Salgada\": \"Carlos\",\n  \"004 - Saúde e Estética\": \"Carlos\",\n  \"006 - Limpeza\": \"Carlos\",\n  \"010 - Pet Shop\": \"Carlos\",\n  \"020 - Tabacaria\": \"Carlos\",\n  \"002 - Merc Doce\": \"Fernanda\",\n  \"007 - Higiene e Perfumaria\": \"Fernanda\",\n  \"009 - Bazar\": \"Fernanda\",\n  \"016 - Cereais\": \"Fernanda\",\n  \"003 - Bebidas\": \"Rafael\",\n  \"014 - Açougue\": \"Rafael\",\n  \"005 - Frios e Laticínios\": \"Lucas\",\n  \"022 - Peixaria\": \"Lucas\",\n  \"008 - Horti Fruti\": \"Beatriz\",\n  \"011 - Restaurante\": \"Beatriz\",\n  \"012 - Padaria Própria\": \"Beatriz\",\n  \"015 - Padaria Terceirizada\": \"Beatriz\",\n  \"021 - Sushi\": \"Beatriz\"\n};\n\nconst ORDEM_COMPRADORES = [\"Beatriz\", \"Carlos\", \"Fernanda\", \"Lucas\", \"Rafael\", \"Não Atribuído\"];\n\nfunction normalizar(row) {\n  const out = {};\n  for (const k of Object.keys(row)) {\n    out[String(k).trim()] = row[k];\n  }\n  return out;\n}\n\nfunction diasDe(data) {\n  const m = String(data[\"ATÉ O VENCIMENTO\"] || \"\").match(/\\d+/);\n  return m ? parseInt(m[0], 10) : 9999;\n}\n\nconst stores = [\n  { loja: \"Loja Centro\", rows: $('Ler Loja Centro').all() },\n  { loja: \"Filial Norte\", rows: $('Ler Filial Norte').all() },\n  { loja: \"Filial Sul\", rows: $('Ler Filial Sul').all() }\n];\n\nconst output = [];\n\nfor (const store of stores) {\n  let totalRisco = 0;\n  const porComprador = {};\n\n  for (const item of store.rows) {\n    const data = normalizar(item.json);\n    const dias = diasDe(data);\n    if (dias <= 15) {\n      totalRisco++;\n      const merc = String(data[\"MERCADOLÓGICO\"] || \"Outros\").trim();\n      const comprador = compradorMap[merc] || \"Não Atribuído\";\n      porComprador[comprador] = (porComprador[comprador] || 0) + 1;\n    }\n  }\n\n  let texto = '*[' + store.loja.toUpperCase() + ']* — *' + totalRisco + '* item(ns) em risco (<= 15 dias)\\n';\n  texto += '---------------------------------------------\\n';\n\n  if (totalRisco === 0) {\n    texto += 'Nenhum item em risco hoje.';\n  } else {\n    texto += '*Por comprador:*\\n';\n    const nomes = Object.keys(porComprador).sort((a, b) => {\n      const ia = ORDEM_COMPRADORES.indexOf(a);\n      const ib = ORDEM_COMPRADORES.indexOf(b);\n      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);\n    });\n    for (const nome of nomes) {\n      texto += '- *' + nome + ':* ' + porComprador[nome] + '\\n';\n    }\n    texto += '\\nDetalhamento completo no Excel em anexo.';\n  }\n\n  output.push({ json: { loja: store.loja, total: totalRisco, mensagem: texto } });\n}\n\nreturn output;"
+      },
+      "id": "7ed56f4c-36e1-4429-8692-cb1937a26fb0",
+      "name": "Montar resumos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        -272
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const compradorMap = {\n  \"001 - Merc. Salgada\": \"Carlos\",\n  \"004 - Saúde e Estética\": \"Carlos\",\n  \"006 - Limpeza\": \"Carlos\",\n  \"010 - Pet Shop\": \"Carlos\",\n  \"020 - Tabacaria\": \"Carlos\",\n  \"002 - Merc Doce\": \"Fernanda\",\n  \"007 - Higiene e Perfumaria\": \"Fernanda\",\n  \"009 - Bazar\": \"Fernanda\",\n  \"016 - Cereais\": \"Fernanda\",\n  \"003 - Bebidas\": \"Rafael\",\n  \"014 - Açougue\": \"Rafael\",\n  \"005 - Frios e Laticínios\": \"Lucas\",\n  \"022 - Peixaria\": \"Lucas\",\n  \"008 - Horti Fruti\": \"Beatriz\",\n  \"011 - Restaurante\": \"Beatriz\",\n  \"012 - Padaria Própria\": \"Beatriz\",\n  \"015 - Padaria Terceirizada\": \"Beatriz\",\n  \"021 - Sushi\": \"Beatriz\"\n};\n\nfunction normalizar(row) {\n  const out = {};\n  for (const k of Object.keys(row)) {\n    out[String(k).trim()] = row[k];\n  }\n  return out;\n}\n\nfunction diasDe(data) {\n  const m = String(data[\"ATÉ O VENCIMENTO\"] || \"\").match(/\\d+/);\n  return m ? parseInt(m[0], 10) : 9999;\n}\n\nconst items = $('Ler Loja Centro').all();\nconst output = [];\n\nfor (const item of items) {\n  const data = normalizar(item.json);\n  const dias = diasDe(data);\n\n  if (dias <= 15) {\n    const ean = String(data[\"CÓDIGO EM BARRA\"] || \"\").trim();\n    const merc = String(data[\"MERCADOLÓGICO\"] || \"Outros\").trim();\n    const comprador = compradorMap[merc] || \"Não Atribuído\";\n\n    output.push({\n      json: {\n        \"ID\": `CEN - ${ean}`,\n        \"CÓDIGO EM BARRA\": ean,\n        \"PRODUTO\": data[\"PRODUTOS\"] || \"\",\n        \"COMPRADOR\": comprador,\n        \"QUANTIDADE\": data[\"QUANTIDADE DE PRODUTOS\"] || 0,\n        \"VENCIMENTO\": data[\"VENCIMENTO\"] || \"\",\n        \"DIAS RESTANTES\": dias,\n        \"STATUS ATUAL\": data[\"STATUS\"] || \"\"\n      }\n    });\n  }\n}\n\nreturn output;"
+      },
+      "id": "0569c201-e09c-47ef-b469-0542cd9516b3",
+      "name": "Linhas Loja Centro",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -592
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "fileName": "Loja_Centro_risco.xlsx",
+          "sheetName": "Risco"
+        }
+      },
+      "id": "f44e03a1-2235-4580-bdf3-9b79b3ca8c96",
+      "name": "Excel Loja Centro",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -592
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "-1000000000000",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "Relatório de risco (<=15 dias) - Loja Centro",
+          "fileName": "Loja_Centro_risco.xlsx"
+        }
+      },
+      "id": "6551ff06-bbf7-472a-a0a3-22c3fa492fba",
+      "name": "Enviar Excel Loja Centro",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -592
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const compradorMap = {\n  \"001 - Merc. Salgada\": \"Carlos\",\n  \"004 - Saúde e Estética\": \"Carlos\",\n  \"006 - Limpeza\": \"Carlos\",\n  \"010 - Pet Shop\": \"Carlos\",\n  \"020 - Tabacaria\": \"Carlos\",\n  \"002 - Merc Doce\": \"Fernanda\",\n  \"007 - Higiene e Perfumaria\": \"Fernanda\",\n  \"009 - Bazar\": \"Fernanda\",\n  \"016 - Cereais\": \"Fernanda\",\n  \"003 - Bebidas\": \"Rafael\",\n  \"014 - Açougue\": \"Rafael\",\n  \"005 - Frios e Laticínios\": \"Lucas\",\n  \"022 - Peixaria\": \"Lucas\",\n  \"008 - Horti Fruti\": \"Beatriz\",\n  \"011 - Restaurante\": \"Beatriz\",\n  \"012 - Padaria Própria\": \"Beatriz\",\n  \"015 - Padaria Terceirizada\": \"Beatriz\",\n  \"021 - Sushi\": \"Beatriz\"\n};\n\nfunction normalizar(row) {\n  const out = {};\n  for (const k of Object.keys(row)) {\n    out[String(k).trim()] = row[k];\n  }\n  return out;\n}\n\nfunction diasDe(data) {\n  const m = String(data[\"ATÉ O VENCIMENTO\"] || \"\").match(/\\d+/);\n  return m ? parseInt(m[0], 10) : 9999;\n}\n\nconst items = $('Ler Filial Norte').all();\nconst output = [];\n\nfor (const item of items) {\n  const data = normalizar(item.json);\n  const dias = diasDe(data);\n\n  if (dias <= 15) {\n    const ean = String(data[\"CÓDIGO EM BARRA\"] || \"\").trim();\n    const merc = String(data[\"MERCADOLÓGICO\"] || \"Outros\").trim();\n    const comprador = compradorMap[merc] || \"Não Atribuído\";\n\n    output.push({\n      json: {\n        \"ID\": `NOR - ${ean}`,\n        \"CÓDIGO EM BARRA\": ean,\n        \"PRODUTO\": data[\"PRODUTOS\"] || \"\",\n        \"COMPRADOR\": comprador,\n        \"QUANTIDADE\": data[\"QUANTIDADE DE PRODUTOS\"] || 0,\n        \"VENCIMENTO\": data[\"VENCIMENTO\"] || \"\",\n        \"DIAS RESTANTES\": dias,\n        \"STATUS ATUAL\": data[\"STATUS\"] || \"\"\n      }\n    });\n  }\n}\n\nreturn output;"
+      },
+      "id": "ee9cbf3a-e7ec-4a1e-b755-d1ccb2cc15ab",
+      "name": "Linhas Filial Norte",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "fileName": "Filial_Norte_risco.xlsx",
+          "sheetName": "Risco"
+        }
+      },
+      "id": "986fe8ea-ef40-4e4c-b3f1-2a08d8577e8e",
+      "name": "Excel Filial Norte",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "-1000000000000",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "Relatório de risco (<=15 dias) - Filial Norte",
+          "fileName": "Filial_Norte_risco.xlsx"
+        }
+      },
+      "id": "d4257cdf-7d20-4dee-a74f-5d3d8dcd9cf9",
+      "name": "Enviar Excel Filial Norte",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -416
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const compradorMap = {\n  \"001 - Merc. Salgada\": \"Carlos\",\n  \"004 - Saúde e Estética\": \"Carlos\",\n  \"006 - Limpeza\": \"Carlos\",\n  \"010 - Pet Shop\": \"Carlos\",\n  \"020 - Tabacaria\": \"Carlos\",\n  \"002 - Merc Doce\": \"Fernanda\",\n  \"007 - Higiene e Perfumaria\": \"Fernanda\",\n  \"009 - Bazar\": \"Fernanda\",\n  \"016 - Cereais\": \"Fernanda\",\n  \"003 - Bebidas\": \"Rafael\",\n  \"014 - Açougue\": \"Rafael\",\n  \"005 - Frios e Laticínios\": \"Lucas\",\n  \"022 - Peixaria\": \"Lucas\",\n  \"008 - Horti Fruti\": \"Beatriz\",\n  \"011 - Restaurante\": \"Beatriz\",\n  \"012 - Padaria Própria\": \"Beatriz\",\n  \"015 - Padaria Terceirizada\": \"Beatriz\",\n  \"021 - Sushi\": \"Beatriz\"\n};\n\nfunction normalizar(row) {\n  const out = {};\n  for (const k of Object.keys(row)) {\n    out[String(k).trim()] = row[k];\n  }\n  return out;\n}\n\nfunction diasDe(data) {\n  const m = String(data[\"ATÉ O VENCIMENTO\"] || \"\").match(/\\d+/);\n  return m ? parseInt(m[0], 10) : 9999;\n}\n\nconst items = $('Ler Filial Sul').all();\nconst output = [];\n\nfor (const item of items) {\n  const data = normalizar(item.json);\n  const dias = diasDe(data);\n\n  if (dias <= 15) {\n    const ean = String(data[\"CÓDIGO EM BARRA\"] || \"\").trim();\n    const merc = String(data[\"MERCADOLÓGICO\"] || \"Outros\").trim();\n    const comprador = compradorMap[merc] || \"Não Atribuído\";\n\n    output.push({\n      json: {\n        \"ID\": `SUL - ${ean}`,\n        \"CÓDIGO EM BARRA\": ean,\n        \"PRODUTO\": data[\"PRODUTOS\"] || \"\",\n        \"COMPRADOR\": comprador,\n        \"QUANTIDADE\": data[\"QUANTIDADE DE PRODUTOS\"] || 0,\n        \"VENCIMENTO\": data[\"VENCIMENTO\"] || \"\",\n        \"DIAS RESTANTES\": dias,\n        \"STATUS ATUAL\": data[\"STATUS\"] || \"\"\n      }\n    });\n  }\n}\n\nreturn output;"
+      },
+      "id": "4d96bff9-9549-4849-8c95-c46ecebb0a3e",
+      "name": "Linhas Filial Sul",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "fileName": "Filial_Sul_risco.xlsx",
+          "sheetName": "Risco"
+        }
+      },
+      "id": "b6939efd-453a-49d6-a35e-7e4fda4dcf91",
+      "name": "Excel Filial Sul",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "-1000000000000",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "Relatório de risco (<=15 dias) - Filial Sul",
+          "fileName": "Filial_Sul_risco.xlsx"
+        }
+      },
+      "id": "1e664338-d850-4f27-bd2a-b11ecc11f1b9",
+      "name": "Enviar Excel Filial Sul",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -240
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1000000000000",
+        "text": "={{ $json.mensagem }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "b673a8cb-b54d-47ed-9137-bbb0473dc37f",
+      "name": "Enviar resumo Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -32,
+        -64
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "id": "0c2714b3-2b97-4b3c-84a3-891564aa133d",
+      "name": "Aguardar 3s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "adcba8b2-97ea-4ac2-9035-2b53a2a1fb7c",
+      "name": "Enviar resumos um a um",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -144,
+        -272
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Aqui, todo dia as 8:00 ele começa a fazer a automação",
+        "height": 80,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1216,
+        -384
+      ],
+      "id": "98e11ac0-ffeb-44d5-a07a-14b7f194122f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Aqui ele passa para ler as colunas, e conciliar as informações.",
+        "height": 96,
+        "width": 224,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        -640
+      ],
+      "id": "b60ed631-2217-4d36-b192-934e441aa4d3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Aqui ele junta as informações, concilia, monta o resumo do que foi conciliado com uma estrutura ja pre-selecionada via .json e envia para cada loja de forma organizada.\nCada loja tem um tempo de aguardo de 3s para o API do telegram funcionar de forma consistente.",
+        "height": 144,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        -448
+      ],
+      "id": "ad32b367-92d6-46cf-9165-c29509e4fc15",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "Todo dia de manhã": {
+      "main": [
+        [
+          {
+            "node": "Ler Loja Centro",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Ler Filial Norte",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Ler Filial Sul",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler Loja Centro": {
+      "main": [
+        [
+          {
+            "node": "Juntar leituras",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Juntar leituras": {
+      "main": [
+        [
+          {
+            "node": "Montar resumos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler Filial Norte": {
+      "main": [
+        [
+          {
+            "node": "Juntar leituras",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Ler Filial Sul": {
+      "main": [
+        [
+          {
+            "node": "Juntar leituras",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Montar resumos": {
+      "main": [
+        [
+          {
+            "node": "Enviar resumos um a um",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linhas Loja Centro": {
+      "main": [
+        [
+          {
+            "node": "Excel Loja Centro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Excel Loja Centro": {
+      "main": [
+        [
+          {
+            "node": "Enviar Excel Loja Centro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linhas Filial Norte": {
+      "main": [
+        [
+          {
+            "node": "Excel Filial Norte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Excel Filial Norte": {
+      "main": [
+        [
+          {
+            "node": "Enviar Excel Filial Norte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linhas Filial Sul": {
+      "main": [
+        [
+          {
+            "node": "Excel Filial Sul",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Excel Filial Sul": {
+      "main": [
+        [
+          {
+            "node": "Enviar Excel Filial Sul",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar resumo Telegram": {
+      "main": [
+        [
+          {
+            "node": "Aguardar 3s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aguardar 3s": {
+      "main": [
+        [
+          {
+            "node": "Enviar resumos um a um",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar resumos um a um": {
+      "main": [
+        [
+          {
+            "node": "Linhas Loja Centro",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linhas Filial Norte",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linhas Filial Sul",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar resumo Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": {
+    "node:Todo dia de manhã": {
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
+    }
+  },
+  "pinData": {},
+  "triggerCount": 1,
+  "meta": null
+}

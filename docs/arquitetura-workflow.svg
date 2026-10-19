@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="60%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0F2744"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F2744"/>
+      <stop offset="50%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="n8nGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6D5A"/>
+      <stop offset="100%" stop-color="#FF4B82"/>
+    </linearGradient>
+    <linearGradient id="tgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <linearGradient id="sheetsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="740" fill="url(#bg)" rx="16" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Top Header Banner -->
+  <rect x="36" y="26" width="1128" height="92" rx="14" fill="#161B22" stroke="#0284C7" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="54" y="44" width="56" height="56" rx="12" fill="url(#n8nGrad)"/>
+  <text x="82" y="79" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">n8n</text>
+  <text x="128" y="65" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="23" font-weight="800" fill="#F8FAFC">Arquitetura em 7 Passos — Alerta de Risco de Vencimento &amp; Bot Telegram</text>
+  <text x="128" y="94" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14" fill="#38BDF8" font-weight="600">Prevenção de Perdas | Monitoramento Diário (&lt;= 15 dias) | Relatórios por Comprador (.xlsx) | Atualização via Chat</text>
+
+  <!-- ROW 1: PASSOS 1 A 4 -->
+  <!-- Passo 1 -->
+  <g transform="translate(36, 146)" filter="url(#shadow)">
+    <rect width="248" height="235" rx="14" fill="#161B22" stroke="#FF6D5A" stroke-width="1.8"/>
+    <rect width="248" height="42" rx="14" fill="url(#n8nGrad)"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">1. PASSO - GATILHO DIÁRIO</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16.5" font-weight="700" fill="#F8FAFC">Schedule Trigger</text>
+    <text x="18" y="104" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">- Inicia a automação todos os</text>
+    <text x="18" y="124" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">  dias às <tspan fill="#FF7B72" font-weight="700">08:00 da manhã</tspan>.</text>
+    <text x="18" y="156" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">- Dispara simultaneamente a</text>
+    <text x="18" y="175" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  leitura das 3 unidades da rede</text>
+    <text x="18" y="194" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  no Google Sheets.</text>
+  </g>
+
+  <!-- Seta 1 -> 2 -->
+  <path d="M 288 263 L 316 263" stroke="#38BDF8" stroke-width="3"/>
+  <polygon points="316,257 328,263 316,269" fill="#38BDF8"/>
+
+  <!-- Passo 2 -->
+  <g transform="translate(332, 146)" filter="url(#shadow)">
+    <rect width="272" height="235" rx="14" fill="#161B22" stroke="#10B981" stroke-width="1.8"/>
+    <rect width="272" height="42" rx="14" fill="url(#sheetsGrad)"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">2. PASSO - LEITURA (3 LOJAS)</text>
+    <text x="18" y="72" font-family="Segoe UI, sans-serif" font-size="16.5" font-weight="700" fill="#F8FAFC">Google Sheets (x3)</text>
+    <text x="18" y="98" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#34D399" font-weight="700">[Loja Centro]  [Filial Norte]  [Filial Sul]</text>
+    <text x="18" y="122" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#CBD5E1">- Cabeçalho: <tspan fill="#F8FAFC" font-weight="700">Linha 5</tspan> | Produtos: <tspan fill="#F8FAFC" font-weight="700">Linha 6+</tspan></text>
+    <rect x="16" y="140" width="240" height="76" rx="8" fill="#0D1117" stroke="#30363D"/>
+    <text x="26" y="161" font-family="Segoe UI, sans-serif" font-size="12" fill="#FACC15" font-weight="700">Exceção Operacional: Atacado</text>
+    <text x="26" y="180" font-family="Segoe UI, sans-serif" font-size="11.5" fill="#94A3B8">Não entra neste fluxo pois utiliza</text>
+    <text x="26" y="197" font-family="Segoe UI, sans-serif" font-size="11.5" fill="#94A3B8">outro sistema de controle de validade.</text>
+  </g>
+
+  <!-- Seta 2 -> 3 -->
+  <path d="M 608 263 L 636 263" stroke="#38BDF8" stroke-width="3"/>
+  <polygon points="636,257 648,263 636,269" fill="#38BDF8"/>
+
+  <!-- Passo 3 -->
+  <g transform="translate(652, 146)" filter="url(#shadow)">
+    <rect width="232" height="235" rx="14" fill="#161B22" stroke="#8B5CF6" stroke-width="1.8"/>
+    <rect width="232" height="42" rx="14" fill="#7C3AED"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">3. PASSO - SINCRONIZAÇÃO</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16.5" font-weight="700" fill="#F8FAFC">Merge (3 Entradas)</text>
+    <text x="18" y="104" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">- Aguarda as 3 leituras do</text>
+    <text x="18" y="124" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">  Passo 2 terminarem.</text>
+    <text x="18" y="156" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">- Consolida o processamento</text>
+    <text x="18" y="175" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  mantendo os dados agrupados</text>
+    <text x="18" y="194" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  por unidade.</text>
+  </g>
+
+  <!-- Seta 3 -> 4 -->
+  <path d="M 888 263 L 916 263" stroke="#38BDF8" stroke-width="3"/>
+  <polygon points="916,257 928,263 916,269" fill="#38BDF8"/>
+
+  <!-- Passo 4 -->
+  <g transform="translate(932, 146)" filter="url(#shadow)">
+    <rect width="232" height="235" rx="14" fill="#161B22" stroke="#F59E0B" stroke-width="1.8"/>
+    <rect width="232" height="42" rx="14" fill="#D97706"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">4. PASSO - REGRA &amp; FILTRO</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16.5" font-weight="700" fill="#F8FAFC">Code (JavaScript)</text>
+    <text x="18" y="103" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#CBD5E1">- Filtra coluna <tspan font-weight="700">ATÉ O VENCIMENTO</tspan>:</text>
+    <text x="18" y="122" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#FBBF24" font-weight="700">  somente itens &lt;= 15 dias.</text>
+    <text x="18" y="150" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#CBD5E1">- Cruza <tspan font-weight="700">Mercadológico x Comprador</tspan></text>
+    <text x="18" y="169" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">- Gera mensagem formatada por</text>
+    <text x="18" y="188" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  loja com total por comprador.</text>
+  </g>
+
+  <!-- ROW 2: PASSOS 5 A 7 -->
+  <!-- Passo 5 -->
+  <g transform="translate(36, 424)" filter="url(#shadow)">
+    <rect width="348" height="260" rx="14" fill="#161B22" stroke="#0284C7" stroke-width="1.8"/>
+    <rect width="348" height="42" rx="14" fill="url(#tgGrad)"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">5. PASSO - ENVIO DE RESUMOS (COM FILA)</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#F8FAFC">Split In Batches + Telegram + Wait</text>
+    <text x="18" y="104" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">- Envia o resumo no chat do Telegram</text>
+    <text x="18" y="124" font-family="Segoe UI, sans-serif" font-size="13" fill="#38BDF8" font-weight="700">  uma unidade por vez.</text>
+    <rect x="18" y="144" width="312" height="94" rx="8" fill="#0D1117" stroke="#30363D"/>
+    <text x="32" y="168" font-family="Segoe UI, sans-serif" font-size="13" fill="#38BDF8" font-weight="700">Pausa de 3 Segundos (Wait Node)</text>
+    <text x="32" y="190" font-family="Segoe UI, sans-serif" font-size="12" fill="#94A3B8">Evita que as mensagens cheguem fora de</text>
+    <text x="32" y="208" font-family="Segoe UI, sans-serif" font-size="12" fill="#94A3B8">ordem no grupo e previne travamento</text>
+    <text x="32" y="226" font-family="Segoe UI, sans-serif" font-size="12" fill="#94A3B8">ou bloqueio da API do Telegram.</text>
+  </g>
+
+  <!-- Seta 5 -> 6 -->
+  <path d="M 388 554 L 418 554" stroke="#38BDF8" stroke-width="3"/>
+  <polygon points="418,548 430,554 418,560" fill="#38BDF8"/>
+
+  <!-- Passo 6 -->
+  <g transform="translate(434, 424)" filter="url(#shadow)">
+    <rect width="348" height="260" rx="14" fill="#161B22" stroke="#10B981" stroke-width="1.8"/>
+    <rect width="348" height="42" rx="14" fill="url(#sheetsGrad)"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">6. PASSO - RELATÓRIO EXCEL POR LOJA</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#F8FAFC">Code + Convert (.xlsx) + Send Doc</text>
+    <text x="18" y="104" font-family="Segoe UI, sans-serif" font-size="13" fill="#CBD5E1">- Após os resumos, gera e envia o arquivo</text>
+    <text x="18" y="124" font-family="Segoe UI, sans-serif" font-size="13" fill="#34D399" font-weight="700">  Excel (.xlsx) com os produtos de cada loja:</text>
+    <rect x="18" y="144" width="312" height="94" rx="8" fill="#0D1117" stroke="#30363D"/>
+    <text x="32" y="168" font-family="Consolas, monospace" font-size="12" fill="#A7F3D0">Loja_Centro_risco.xlsx  (ID: CEN - EAN)</text>
+    <text x="32" y="190" font-family="Consolas, monospace" font-size="12" fill="#A7F3D0">Filial_Norte_risco.xlsx (ID: NOR - EAN)</text>
+    <text x="32" y="212" font-family="Consolas, monospace" font-size="12" fill="#A7F3D0">Filial_Sul_risco.xlsx   (ID: SUL - EAN)</text>
+  </g>
+
+  <!-- Seta 6 -> 7 -->
+  <path d="M 786 554 L 816 554" stroke="#38BDF8" stroke-width="3"/>
+  <polygon points="816,548 828,554 816,560" fill="#38BDF8"/>
+
+  <!-- Passo 7 -->
+  <g transform="translate(832, 424)" filter="url(#shadow)">
+    <rect width="332" height="260" rx="14" fill="#161B22" stroke="#38BDF8" stroke-width="1.8"/>
+    <rect width="332" height="42" rx="14" fill="url(#headerGrad)"/>
+    <text x="18" y="27" font-family="Segoe UI, sans-serif" font-size="13.5" font-weight="800" fill="#FFFFFF">7. PASSO - GRAVAR STATUS VIA BOT</text>
+    <text x="18" y="74" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#F8FAFC">Telegram Trigger + Switch + Sheets</text>
+    <text x="18" y="103" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#CBD5E1">- Resposta no grupo com <tspan fill="#38BDF8" font-weight="700">Loja/EAN + Status</tspan></text>
+    <text x="18" y="121" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#94A3B8">  (Perda, Rebaixado ou Troca):</text>
+    <rect x="18" y="135" width="296" height="40" rx="8" fill="#0D1117" stroke="#0284C7" stroke-dasharray="4 2"/>
+    <text x="32" y="160" font-family="Consolas, monospace" font-size="13" fill="#38BDF8" font-weight="700">CEN - 7890000100101 Rebaixado</text>
+    <text x="18" y="198" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#CBD5E1">- O bot vai na planilha online da unidade,</text>
+    <text x="18" y="217" font-family="Segoe UI, sans-serif" font-size="12.5" fill="#34D399" font-weight="700">  grava o STATUS sozinho e confirma:</text>
+    <text x="18" y="236" font-family="Consolas, monospace" font-size="12" fill="#A7F3D0">  [OK] CEN-7890000100101 -&gt; Rebaixado</text>
+  </g>
+</svg>
